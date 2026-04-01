@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B-TFAL — Sabah Rahman</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;1,8..60,300;1,8..60,400&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FFFFFF;--text:#111111;--text-s:#555555;--text-t:#999999;--accent:#1B3764;--green:#2D6A4F;--border:#E0E0E0;--surface:#F5F5F5;--serif:'Source Serif 4',Georgia,serif;--sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;--mono:'IBM Plex Mono',monospace}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}body{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;font-size:16px;line-height:1.6}::selection{background:var(--accent);color:white}
+nav{padding:32px 0;max-width:960px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;padding-left:48px;padding-right:48px}.nav-n{font-family:var(--serif);font-size:1rem;font-weight:400;color:var(--text);text-decoration:none}.nav-l{display:flex;gap:32px;list-style:none}.nav-l a{text-decoration:none;color:var(--text-t);font-size:14px;transition:color 0.2s}.nav-l a:hover{color:var(--text)}
+.pg{max-width:960px;margin:0 auto;padding:0 48px}
+.case-hero{padding:80px 0 60px;border-bottom:1px solid var(--border)}.case-back{font-size:14px;color:var(--accent);text-decoration:none;display:inline-flex;align-items:center;gap:6px;margin-bottom:40px}.case-back:hover{text-decoration:underline}.case-meta{display:flex;gap:40px;margin-bottom:28px;flex-wrap:wrap}.case-meta-item{display:flex;flex-direction:column;gap:2px}.case-meta-label{font-family:var(--mono);font-size:11px;color:var(--text-t);letter-spacing:0.06em;text-transform:uppercase}.case-meta-val{font-size:14px;color:var(--text-s)}.case-hero h1{font-family:var(--serif);font-weight:400;font-size:clamp(1.8rem,4vw,2.4rem);line-height:1.25;letter-spacing:-0.02em;max-width:700px}.case-hero .case-sub{font-size:15px;color:var(--text-s);line-height:1.7;max-width:600px;margin-top:16px}
+.case-body{padding:60px 0 100px}.case-body h2{font-family:var(--serif);font-weight:500;font-size:1.2rem;margin-top:56px;margin-bottom:14px}.case-body p{font-size:15px;color:var(--text-s);line-height:1.75;margin-bottom:16px;max-width:640px}.case-body img{width:100%;border-radius:8px;margin:32px 0;display:block;border:1px solid var(--border)}.case-body .img-cap{font-size:13px;color:var(--text-t);margin-top:-24px;margin-bottom:32px}
+.case-nav{display:flex;justify-content:space-between;padding:40px 0;border-top:1px solid var(--border)}.case-nav a{font-size:14px;color:var(--accent);text-decoration:none;font-weight:500}.case-nav a:hover{text-decoration:underline}.case-nav .next::after{content:' →'}
+footer{padding:24px 0;border-top:1px solid var(--border)}.f-inner{display:flex;justify-content:space-between;align-items:center}footer span{font-size:13px;color:var(--text-t)}footer .fl{display:flex;gap:20px}footer .fl a{font-size:13px;color:var(--text-t);text-decoration:none}footer .fl a:hover{color:var(--text)}
+@media(max-width:768px){nav,.pg{padding-left:24px;padding-right:24px}.case-hero{padding:56px 0 48px}.case-meta{gap:20px}.case-nav{flex-direction:column;gap:16px}}
+</style>
+</head>
+<body>
+<nav><a href="/" class="nav-n">Sabah Rahman</a><ul class="nav-l"><li><a href="/#btfal">B-TFAL</a></li><li><a href="/#work">Work</a></li><li><a href="/#contact">Get in touch</a></li></ul></nav>
+<div class="pg">
+
+<section class="case-hero">
+  <a href="/" class="case-back">← Back to work</a>
+  <div class="case-meta">
+    <div class="case-meta-item"><span class="case-meta-label">Role</span><span class="case-meta-val">Inventor</span></div>
+    <div class="case-meta-item"><span class="case-meta-label">Status</span><span class="case-meta-val">US Patent Pending</span></div>
+    <div class="case-meta-item"><span class="case-meta-label">Filed</span><span class="case-meta-val">March 2026</span></div>
+    <div class="case-meta-item"><span class="case-meta-label">Stack</span><span class="case-meta-val">JavaScript · Browser-executable</span></div>
+  </div>
+  <h1>B-TFAL: Behavioral Temporal Feature Attribution Lattice</h1>
+  <p class="case-sub">A deterministic protocol that stress-tests black-box AI decisions and produces bounded, regulator-grade confidence artifacts. No model access. No randomness. Fully reproducible.</p>
+</section>
+
+<section class="case-body">
+
+  <p>Every major explainability method in production today — SHAP, LIME, ablation — relies on sampling, requires model internals, or produces non-deterministic outputs. Run the same explanation twice and you get two different answers. That's not an explanation. It's a guess.</p>
+
+  <p>B-TFAL eliminates this entirely. It treats explanation as a staged intervention problem: systematically removing supports from a decision and measuring what changes, the way you'd stress-test a bridge. The result is a confidence score that contracts automatically when instability is detected, with zero variance across runs.</p>
+
+  <img src="../images/btfal/comparison-table.png" alt="B-TFAL vs LIME vs SHAP vs Ablation vs Sensitivity — methodological comparison">
+  <p class="img-cap">B-TFAL is the only method that satisfies all nine methodological properties simultaneously.</p>
+
+  <h2>Architecture</h2>
+
+  <p>The framework implements a five-stage deterministic pipeline (T0–T4). Each stage produces timestamped, structurally auditable artifacts. Feature extraction, evidence aggregation, deterministic scoring, and explanation generation are explicitly indexed — enabling causal tracing instead of flat feature masking.</p>
+
+  <img src="../images/btfal/architecture.png" alt="Complete 5-stage pipeline and conceptual architecture">
+  <p class="img-cap">Left: complete stage pipeline with transitions and novel contributions. Right: deterministic intervention lattice architecture.</p>
+
+  <h2>Deterministic Execution & Bounded Confidence</h2>
+
+  <p>Identical inputs produce identical explanation artifacts. No stochastic sampling, no gradient access, no model internals required. Fully reproducible across runs, environments, and implementations.</p>
+
+  <p>Confidence is computed through weakest-link fusion of two independent stability components: attribution stability and outcome sensitivity. As instability increases, fused confidence contracts monotonically. The system cannot produce overconfident outputs — the math prevents it.</p>
+
+  <img src="../images/btfal/pipeline-confidence.png" alt="Deterministic pipeline and bounded confidence fusion curve">
+  <p class="img-cap">Left: deterministic stage pipeline (T0–T4). Right: weakest-link stability fusion — confidence contracts monotonically under instability.</p>
+
+  <h2>Output Artifacts</h2>
+
+  <p>B-TFAL generates structured, machine-verifiable decision artifacts — not natural language summaries. Every output includes an analysis ID, attribution stability score, outcome sensitivity measurement, fused confidence value, processing time, and a complete interventional factor breakdown.</p>
+
+  <img src="../images/btfal/analysis-full.png" alt="Full B-TFAL analysis output">
+  <p class="img-cap">Full analysis output: decision input, stability metrics, confidence score, and 0ms processing time.</p>
+
+  <img src="../images/btfal/analysis-detail.png" alt="Detailed interventional breakdown">
+  <p class="img-cap">Detailed view: summary, interventional factor breakdown with contribution weights, and lattice graph metrics.</p>
+
+  <img src="../images/btfal/reasoning-card.png" alt="Compact reasoning analysis card">
+  <p class="img-cap">Compact reasoning card — designed for integration into existing enterprise decision workflows.</p>
+
+  <h2>Decision Intelligence Integration</h2>
+
+  <p>B-TFAL plugs directly into decision tracking systems, tagging each decision with its analysis type, integrity score, and status. This is what compliance teams need — not a one-off explanation, but a persistent audit trail across every decision a model makes.</p>
+
+  <img src="../images/btfal/decisions-table.png" alt="Decision tracking with B-TFAL analysis">
+  <p class="img-cap">Decision registry with B-TFAL integrity scoring, type classification (explicit, implied, deferred), and status tracking.</p>
+
+  <h2>Why This Matters Now</h2>
+
+  <p>The EU AI Act (Article 13, Article 86) begins enforcement in August 2026. The Colorado AI Act takes effect in June 2026. Both require explainability documentation for high-risk AI systems. The industry doesn't have a deterministic solution for this yet.</p>
+
+  <p>Browser-executable. O(n) runtime. No backend dependencies. No gradients. No retraining. Drop it into any production system and it works.</p>
+
+</section>
+
+<div class="case-nav">
+  <span></span>
+  <a href="/work/decision-intelligence.html" class="next">Decision Intelligence</a>
+</div>
+
+<footer><div class="f-inner"><span>© 2026 Sabah Rahman</span><div class="fl"><a href="https://www.linkedin.com/in/sabahr/">LinkedIn</a><a href="/cdn-cgi/l/email-protection#285b494a49405a1a684f45494144064b4745">Email</a></div>
