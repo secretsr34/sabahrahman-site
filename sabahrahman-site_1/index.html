@@ -1,371 +1,1292 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="corporate">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sabah Rahman</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;1,8..60,300;1,8..60,400&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg:#FFFFFF;--text:#111111;--text-s:#555555;--text-t:#999999;
-    --accent:#1B3764;--green:#2D6A4F;--border:#E0E0E0;--surface:#F5F5F5;
-    --serif:'Source Serif 4',Georgia,serif;
-    --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-    --mono:'IBM Plex Mono',monospace;
-    --ease-out:cubic-bezier(0.16,1,0.3,1);
-  }
-  *{margin:0;padding:0;box-sizing:border-box}
-  html{scroll-behavior:smooth}
-  body{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;font-size:16px;line-height:1.6}
-  ::selection{background:var(--accent);color:white}
-
-  /* PW GATE */
-  .pw-gate{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.4s ease,visibility 0.4s}
-  .pw-gate.hidden{opacity:0;visibility:hidden;pointer-events:none}
-  .pw-gate .gt{font-family:var(--serif);font-size:1.15rem;font-weight:400;margin-bottom:48px}
-  .pw-gate p{font-size:14px;color:var(--text-s);margin-bottom:20px}
-  .pw-wrap{display:flex;gap:8px}
-  .pw-in{font-family:var(--sans);font-size:14px;padding:10px 16px;border-radius:4px;border:1px solid var(--border);background:white;color:var(--text);outline:none;width:180px;letter-spacing:0.04em;-webkit-appearance:none}
-  .pw-in:focus{border-color:var(--accent)}
-  .pw-in.error{border-color:#EA4335;animation:shake 0.4s}
-  .pw-btn{font-family:var(--sans);font-size:14px;padding:10px 20px;border-radius:4px;border:none;background:var(--accent);color:white;cursor:pointer;font-weight:500}
-  .pw-err{font-size:13px;color:#EA4335;margin-top:12px;height:18px;opacity:0;transition:opacity 0.2s}
-  .pw-err.show{opacity:1}
-
-  /* NAV */
-  nav{padding:32px 0;max-width:960px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;padding-left:48px;padding-right:48px}
-  .nav-n{font-family:var(--serif);font-size:1rem;font-weight:400;color:var(--text);text-decoration:none}
-  .nav-l{display:flex;gap:32px;list-style:none}
-  .nav-l a{text-decoration:none;color:var(--text-t);font-size:14px;transition:color 0.2s}
-  .nav-l a:hover{color:var(--text)}
-
-  .pg{max-width:960px;margin:0 auto;padding:0 48px}
-
-  /* HERO */
-  .hero{padding:100px 0 80px}
-  .hero h1{font-family:var(--serif);font-weight:300;font-size:clamp(2.6rem,5.5vw,3.6rem);line-height:1.18;letter-spacing:-0.025em;max-width:760px;opacity:0;animation:fadeIn 0.8s ease 0.15s forwards}
-
-  .hero-credentials{margin-top:48px;display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);opacity:0;animation:fadeIn 0.8s ease 0.4s forwards}
-  .hero-cred{padding:28px 24px 28px 0;border-right:1px solid var(--border)}
-  .hero-cred:not(:first-child){padding-left:24px}
-  .hero-cred:last-child{border-right:none}
-  .hero-cred .cred-val{font-family:var(--serif);font-weight:500;font-size:1.5rem;letter-spacing:-0.02em;line-height:1.2;color:var(--accent)}
-  .hero-cred .cred-label{font-size:13px;color:var(--text-s);margin-top:4px;line-height:1.4}
-
-  .hero-lnk{margin-top:40px;display:flex;gap:28px;opacity:0;animation:fadeIn 0.8s ease 0.6s forwards}
-  .hero-lnk a{font-size:14px;color:var(--accent);text-decoration:none;font-weight:500}
-  .hero-lnk a:hover{text-decoration:underline;text-underline-offset:3px}
-
-  /* WHAT I DO */
-  .capabilities{padding:80px 0;border-bottom:1px solid var(--border)}
-  .cap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:48px}
-  .cap h3{font-family:var(--serif);font-weight:500;font-size:1rem;margin-bottom:8px}
-  .cap p{font-size:14px;color:var(--text-s);line-height:1.65}
-
-  /* FEATURED */
-  .feat-section{padding:100px 0;border-bottom:1px solid var(--border)}
-  .feat-card{background:var(--surface);border-radius:12px;overflow:hidden;display:grid;grid-template-columns:1fr 1fr;min-height:400px}
-  .feat-vis{background:#1A1918;display:flex;align-items:center;justify-content:center;padding:48px}
-  .feat-vis svg{width:100%;max-width:300px;height:auto;overflow:visible}
-  .feat-txt{padding:52px 48px;display:flex;flex-direction:column;justify-content:center}
-  .feat-txt .tag{font-family:var(--mono);font-size:12px;color:var(--accent);letter-spacing:0.04em;text-transform:uppercase;margin-bottom:20px}
-  .feat-txt h2{font-family:var(--serif);font-weight:400;font-size:1.65rem;line-height:1.3;letter-spacing:-0.015em;margin-bottom:14px}
-  .feat-txt p{font-size:15px;color:var(--text-s);line-height:1.7}
-  .feat-txt .pat{display:inline-flex;align-items:center;gap:8px;margin-top:20px;font-size:13px;color:var(--text-t)}
-  .feat-txt .pat .dot{width:6px;height:6px;background:var(--green);border-radius:50%;animation:pulse 2.5s ease infinite}
-  .feat-txt .more{margin-top:24px;font-size:14px;color:var(--accent);text-decoration:none;font-weight:500}
-  .feat-txt .more:hover{text-decoration:underline;text-underline-offset:3px}
-  .f-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:48px}
-  .f-item{padding:28px 0;border-top:1px solid var(--border)}
-  .f-item:not(:last-child){padding-right:40px}
-  .f-item h3{font-family:var(--serif);font-weight:500;font-size:1rem;margin-bottom:8px}
-  .f-item p{font-size:14px;color:var(--text-s);line-height:1.6}
-
-  /* WORK */
-  .sec{padding:100px 0 0}
-  .sec h2{font-family:var(--serif);font-weight:400;font-size:1.5rem;letter-spacing:-0.01em;margin-bottom:48px}
-
-  .co-block{padding:56px 0;border-bottom:1px solid var(--border);position:relative}
-  .co-block:last-child{border-bottom:none}
-  .co-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
-  .co-name{font-family:var(--mono);font-size:13px;color:var(--accent);letter-spacing:0.04em;text-transform:uppercase;font-weight:400}
-  .co-role{font-size:13px;color:var(--text-t)}
-  .co-title{font-family:var(--serif);font-weight:400;font-size:1.3rem;letter-spacing:-0.01em;margin-bottom:8px;line-height:1.35}
-  .co-desc{font-size:14px;color:var(--text-s);line-height:1.65;max-width:600px;margin-bottom:24px}
-
-  .project-list{display:flex;flex-direction:column}
-  .project-link{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-top:1px solid var(--border);font-size:14px;color:var(--text);text-decoration:none;transition:color 0.2s,padding-left 0.3s var(--ease-out)}
-  .project-link:hover{color:var(--accent);padding-left:8px}
-  .project-link .arrow{color:var(--text-t);font-size:13px;transition:color 0.2s,transform 0.2s var(--ease-out)}
-  .project-link:hover .arrow{color:var(--accent);transform:translateX(3px)}
-
-  /* AMAZON LOCK */
-  .co-lock{position:absolute;inset:0;z-index:5;background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.4s ease}
-  .co-lock.unlocked{opacity:0;pointer-events:none}
-  .co-lock .lock-icon{font-size:1.2rem;margin-bottom:10px;opacity:0.5}
-  .co-lock .lock-label{font-size:13px;color:var(--text-s);margin-bottom:14px}
-  .co-lock .lock-form{display:flex;gap:8px}
-  .co-lock .lock-input{font-family:var(--sans);font-size:14px;padding:8px 14px;border-radius:4px;border:1px solid var(--border);background:white;color:var(--text);outline:none;width:110px;letter-spacing:0.06em;text-align:center;-webkit-appearance:none}
-  .co-lock .lock-input:focus{border-color:var(--accent)}
-  .co-lock .lock-input.error{border-color:#EA4335;animation:shake 0.4s}
-  .co-lock .lock-btn{font-family:var(--sans);font-size:13px;padding:8px 16px;border-radius:4px;border:1px solid var(--border);background:var(--surface);color:var(--text-s);cursor:pointer}
-  .co-lock .lock-btn:hover{background:var(--accent);color:white;border-color:var(--accent)}
-
-  /* CONTACT */
-  .contact{padding:100px 0 120px;border-top:1px solid var(--border)}
-  .contact h2{font-family:var(--serif);font-weight:400;font-size:1.65rem;letter-spacing:-0.015em;margin-bottom:14px}
-  .contact p{font-size:15px;color:var(--text-s);line-height:1.7;max-width:440px}
-  .contact-lnk{margin-top:28px;display:flex;gap:24px}
-  .contact-lnk a{font-size:14px;color:var(--accent);text-decoration:none;font-weight:500}
-  .contact-lnk a:hover{text-decoration:underline;text-underline-offset:3px}
-
-  /* FOOTER */
-  footer{padding:24px 0;border-top:1px solid var(--border)}
-  .f-inner{display:flex;justify-content:space-between;align-items:center}
-  footer span{font-size:13px;color:var(--text-t)}
-  footer .fl{display:flex;gap:20px}
-  footer .fl a{font-size:13px;color:var(--text-t);text-decoration:none}
-  footer .fl a:hover{color:var(--text)}
-
-  /* ANIMATIONS */
-  @keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-  @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
-  @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.35}}
-  @keyframes nodeGlow{0%,100%{opacity:0.2}50%{opacity:0.5}}
-  .reveal{opacity:0;transform:translateY(16px);transition:opacity 0.6s ease,transform 0.6s ease}
-  .reveal.vis{opacity:1;transform:translateY(0)}
-
-  @media(max-width:768px){
-    nav,.pg{padding-left:24px;padding-right:24px}
-    .hero{padding:72px 0 60px}
-    .hero h1{font-size:2rem}
-    .hero-credentials{grid-template-columns:repeat(2,1fr)}
-    .hero-cred:nth-child(2){border-right:none}
-    .cap-grid{grid-template-columns:1fr}
-    .feat-card{grid-template-columns:1fr}
-    .feat-vis{min-height:220px}
-    .feat-txt{padding:32px 28px}
-    .f-strip{grid-template-columns:1fr}
-    .f-item:not(:last-child){padding-right:0}
-    .nav-l{gap:20px}
-    .hero-lnk{flex-direction:column;gap:12px}
-    .contact-lnk{flex-direction:column;gap:12px}
-    footer .f-inner{flex-direction:column;gap:8px}
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Decision Intelligence Engine · B-TFAL</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { theme: { extend: {} } }</script>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" />
+  <style>
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner { animation: spin 0.8s linear infinite; }
+    @keyframes slideUp { from { transform: translateY(16px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .slide-up { animation: slideUp 0.2s ease-out; }
+    @keyframes toastSlide { from { transform: translateX(400px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    .toast-slide { animation: toastSlide 0.3s ease-out; }
+  </style>
 </head>
-<body>
+<body class="bg-base-200 min-h-screen">
 
-<div class="pw-gate" id="pwGate">
-  <div class="gt">Sabah Rahman</div>
-  <p>Enter password to view portfolio</p>
-  <div class="pw-wrap">
-    <input type="password" class="pw-in" id="pwInput" placeholder="Password" autocomplete="off" />
-    <button class="pw-btn" id="pwSubmit">Enter</button>
-  </div>
-  <div class="pw-err" id="pwError">Incorrect password</div>
-</div>
+  <div class="flex h-screen overflow-hidden">
 
-<nav>
-  <a href="/" class="nav-n">Sabah Rahman</a>
-  <ul class="nav-l">
-    <li><a href="#btfal">B-TFAL</a></li>
-    <li><a href="#work">Work</a></li>
-    <li><a href="#contact">Get in touch</a></li>
-  </ul>
-</nav>
-
-<div class="pg">
-
-  <!-- HERO -->
-  <section class="hero">
-    <h1>I design enterprise products, engineer them in production code, and invented a patent-pending AI framework along the way.</h1>
-
-    <div class="hero-credentials">
-      <div class="hero-cred">
-        <div class="cred-val">10+</div>
-        <div class="cred-label">Years shipping enterprise products</div>
+    <!-- Sidebar -->
+    <aside class="w-72 flex-shrink-0 bg-base-100 border-r border-base-200 flex flex-col overflow-hidden">
+      <div class="p-5 bg-primary text-primary-content flex-shrink-0">
+        <h2 class="font-bold text-base">Saved Sessions</h2>
+        <p class="text-xs opacity-75 mt-0.5">Click a session to reload</p>
       </div>
-      <div class="hero-cred">
-        <div class="cred-val">1</div>
-        <div class="cred-label">US patent pending (B-TFAL)</div>
+      <div class="flex-1 overflow-y-auto p-3" id="sidebarContent">
+        <p class="text-sm text-base-content/50 text-center py-8 px-4 leading-relaxed">No saved sessions yet. Analyze decisions and save your first session.</p>
       </div>
-      <div class="hero-cred">
-        <div class="cred-val">Amazon</div>
-        <div class="cred-label">Feedzai · ForAllSecure · Lessen</div>
-      </div>
-      <div class="hero-cred">
-        <div class="cred-val">React</div>
-        <div class="cred-label">Production code, not prototypes</div>
-      </div>
-    </div>
+    </aside>
 
-    <div class="hero-lnk">
-      <a href="#btfal">B-TFAL — Patent pending ↗</a>
-      <a href="#work">Selected work ↗</a>
-    </div>
-  </section>
+    <!-- Main -->
+    <div class="flex-1 flex flex-col overflow-hidden">
 
-  <!-- CAPABILITIES -->
-  <section class="capabilities reveal">
-    <div class="cap-grid">
-      <div class="cap">
-        <h3>Design Leadership</h3>
-        <p>UX architecture, design systems, and product strategy for high-complexity enterprise systems. I've built UX functions from zero and shipped to millions.</p>
-      </div>
-      <div class="cap">
-        <h3>Front-End Engineering</h3>
-        <p>Production React, JSX, HTML5, CSS3, JavaScript. My prototypes are the product. Teams I've worked with cut development rework by 30%.</p>
-      </div>
-      <div class="cap">
-        <h3>AI Explainability</h3>
-        <p>Invented B-TFAL — a deterministic framework that makes black-box AI auditable. Patent pending, built for EU AI Act and Colorado AI Act compliance.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- B-TFAL -->
-  <section class="feat-section reveal" id="btfal">
-    <div class="feat-card">
-      <div class="feat-vis">
-        <svg viewBox="0 0 320 280" fill="none">
-          <g stroke="rgba(255,255,255,0.15)" stroke-width="0.75">
-            <line x1="80" y1="60" x2="160" y2="100"/><line x1="160" y1="100" x2="240" y2="60"/>
-            <line x1="80" y1="60" x2="100" y2="160"/><line x1="240" y1="60" x2="220" y2="160"/>
-            <line x1="100" y1="160" x2="160" y2="100"/><line x1="220" y1="160" x2="160" y2="100"/>
-            <line x1="100" y1="160" x2="160" y2="220"/><line x1="220" y1="160" x2="160" y2="220"/>
-            <line x1="160" y1="220" x2="80" y2="250"/><line x1="160" y1="220" x2="240" y2="250"/>
-            <line x1="160" y1="140" x2="160" y2="100"/><line x1="160" y1="140" x2="100" y2="160"/>
-            <line x1="160" y1="140" x2="220" y2="160"/><line x1="160" y1="140" x2="160" y2="220"/>
-          </g>
-          <g>
-            <circle cx="160" cy="100" r="5" fill="rgba(27,55,100,0.6)" style="animation:nodeGlow 4s ease infinite"/>
-            <circle cx="80" cy="60" r="3.5" fill="rgba(27,55,100,0.35)" style="animation:nodeGlow 4s ease infinite 0.5s"/>
-            <circle cx="240" cy="60" r="3.5" fill="rgba(27,55,100,0.35)" style="animation:nodeGlow 4s ease infinite 1s"/>
-            <circle cx="100" cy="160" r="4" fill="rgba(27,55,100,0.4)" style="animation:nodeGlow 4s ease infinite 1.5s"/>
-            <circle cx="220" cy="160" r="4" fill="rgba(27,55,100,0.4)" style="animation:nodeGlow 4s ease infinite 2s"/>
-            <circle cx="160" cy="140" r="6" fill="rgba(27,55,100,0.5)" style="animation:nodeGlow 4s ease infinite 0.3s"/>
-            <circle cx="160" cy="220" r="4" fill="rgba(27,55,100,0.35)" style="animation:nodeGlow 4s ease infinite 2.5s"/>
-            <circle cx="80" cy="250" r="3" fill="rgba(27,55,100,0.25)" style="animation:nodeGlow 4s ease infinite 3s"/>
-            <circle cx="240" cy="250" r="3" fill="rgba(27,55,100,0.25)" style="animation:nodeGlow 4s ease infinite 3.5s"/>
-          </g>
-          <circle cx="160" cy="140" r="60" fill="url(#lg)" opacity="0.6"/>
-          <defs><radialGradient id="lg"><stop offset="0%" stop-color="#1B3764" stop-opacity="0.08"/><stop offset="100%" stop-color="#1B3764" stop-opacity="0"/></radialGradient></defs>
-        </svg>
-      </div>
-      <div class="feat-txt">
-        <div class="tag">Patent pending · 2026</div>
-        <h2>B-TFAL</h2>
-        <p>Behavioral Temporal Feature Attribution Lattice — a deterministic protocol that stress-tests black-box AI decisions and produces regulator-grade confidence artifacts. Without model internals.</p>
-        <div class="pat"><span class="dot"></span> Provisional patent filed March 2026</div>
-        <a href="/work/btfal.html" class="more">See case study ↗</a>
-      </div>
-    </div>
-    <div class="f-strip reveal">
-      <div class="f-item"><h3>Deterministic</h3><p>Zero variance under identical inputs. No stochastic sampling. Audit trails that hold up.</p></div>
-      <div class="f-item"><h3>Model-agnostic</h3><p>No access to weights or gradients. Any model, any architecture. O(n) runtime.</p></div>
-      <div class="f-item"><h3>Regulation-ready</h3><p>Built for EU AI Act (Aug 2026) and Colorado AI Act (Jun 2026). Machine-verifiable outputs.</p></div>
-    </div>
-  </section>
-
-  <!-- WORK -->
-  <section class="sec" id="work">
-    <h2 class="reveal">Selected work</h2>
-
-    <!-- AMAZON -->
-    <div class="co-block reveal" id="amazonBlock">
-      <div class="co-lock" id="amazonLock">
-        <div class="lock-icon">🔒</div>
-        <span class="lock-label">Amazon work samples are password protected</span>
-        <div class="lock-form">
-          <input type="password" class="lock-input" id="amazonPwInput" placeholder="Password" autocomplete="off" />
-          <button class="lock-btn" id="amazonPwBtn">Enter</button>
+      <!-- Topbar -->
+      <div class="navbar bg-base-100 border-b border-base-200 px-6 flex-shrink-0 min-h-14 gap-3">
+        <div class="flex-1">
+          <span class="font-bold text-lg">Decision Intelligence Engine</span>
+          <span class="badge badge-outline badge-sm ml-2">B-TFAL</span>
         </div>
+        <span id="sessionInfo" class="text-xs text-base-content/50 bg-base-200 px-3 py-1.5 rounded-lg">No active session</span>
+        <button class="btn btn-ghost btn-sm" id="saveSessionBtn">Save</button>
+        <button class="btn btn-ghost btn-sm" id="loadSessionBtn">Load</button>
       </div>
-      <div class="co-header">
-        <span class="co-name">Amazon</span>
-        <span class="co-role">Senior UX Designer · 2022–Present</span>
-      </div>
-      <h3 class="co-title">Device Software & Services</h3>
-      <p class="co-desc">Enterprise UX and production React engineering across device fleet management, beta testing operations, and AI-powered automation — serving millions of customers and tens of thousands of internal users.</p>
-      <div class="project-list">
-        <a href="/work/amazon-beta-services.html" class="project-link"><span>Beta Services Platform</span><span class="arrow">↗</span></a>
-        <a href="/work/amazon-ai-prototyping.html" class="project-link"><span>Frustration Free Automation — LLM + React</span><span class="arrow">↗</span></a>
+
+      <!-- Content -->
+      <div class="flex-1 overflow-y-auto p-8">
+
+        <!-- Input card -->
+        <div class="card bg-base-100 shadow-sm border border-base-200 mb-6">
+          <div class="card-body">
+            <label class="label"><span class="label-text font-semibold">Paste decision text or meeting notes</span></label>
+            <textarea id="inputText" class="textarea textarea-bordered w-full min-h-36 text-sm" placeholder="Paste your text here — e.g. meeting notes, project docs, decision logs…"></textarea>
+            <div class="flex gap-2 flex-wrap mt-2">
+              <button class="btn btn-primary" id="analyzeBtn">Analyze Decisions</button>
+              <button class="btn btn-ghost btn-sm" id="loadSampleBtn">Load Sample</button>
+              <label class="btn btn-ghost btn-sm cursor-pointer" for="fileUpload">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                </svg>
+                Upload .txt
+              </label>
+              <input type="file" id="fileUpload" accept=".txt,text/plain" class="hidden">
+            </div>
+          </div>
+        </div>
+
+        <!-- Processing -->
+        <div class="card bg-base-100 shadow-sm border border-base-200 mb-6 hidden" id="processingCard">
+          <div class="card-body items-center text-center py-12">
+            <div class="w-12 h-12 rounded-full border-4 border-base-300 border-t-primary spinner mb-4"></div>
+            <p class="font-bold text-base">Running B-TFAL Analysis…</p>
+            <p class="text-sm text-base-content/60">Extracting decisions, scoring integrity, running interventional testing…</p>
+          </div>
+        </div>
+
+        <!-- Results -->
+        <div id="resultsArea" class="hidden">
+          <div id="statsContainer"></div>
+          <div id="decisionsContainer"></div>
+        </div>
+
       </div>
     </div>
+  </div>
 
-    <!-- DECISION INTELLIGENCE -->
-    <div class="co-block reveal">
-      <div class="co-header">
-        <span class="co-name">Independent</span>
-        <span class="co-role">Designer & Engineer · 2025</span>
-      </div>
-      <h3 class="co-title">Decision Intelligence: Reasoning Architecture</h3>
-      <p class="co-desc">AI-assisted system that evaluates how decisions are structured — three scoring engines, cognitive bias detection, structured decision output. Production JavaScript, not a UI wrapper.</p>
-      <div class="project-list">
-        <a href="/work/decision-intelligence.html" class="project-link"><span>Decision Intelligence — Prototype & Case Study</span><span class="arrow">↗</span></a>
-      </div>
-    </div>
+<script>
+// ============================================================
+// 1. BehavioralTFAL CLASS
+// ============================================================
+class BehavioralTFAL {
+    async analyzeBehavior(targetDecision, sourceContext, engine) {
+        const startTime = Date.now();
+        const analysisId = 'BTFAL-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+        const featureGroups = [
+            { name: 'OWNERSHIP',    neutralize: (d) => ({ ...d, ownership: { owner: 'unassigned', is_explicit: false, owner_clarity_score: 0 } }) },
+            { name: 'METRICS',      neutralize: (d) => ({ ...d, success_metrics: [] }) },
+            { name: 'ASSUMPTIONS',  neutralize: (d) => ({ ...d, assumptions: [] }) },
+            { name: 'FLAGS',        neutralize: (d) => ({ ...d, flags: [{ severity: 'high' }, { severity: 'high' }] }) },
+            { name: 'DEPENDENCIES', neutralize: (d) => ({ ...d, dependencies: [] }) },
+        ];
+        const baselineResult = engine.calculateQualityScore(targetDecision);
+        const S0 = baselineResult.score;
+        const scoreRange = 10;
+        const perturbations = [];
+        const deltas = [];
+        for (const group of featureGroups) {
+            const perturbed = group.neutralize({ ...targetDecision });
+            const Si = engine.calculateQualityScore(perturbed).score;
+            const delta = S0 - Si;
+            perturbations.push({ feature_group: group.name, baseline: S0, perturbed_score: Si, delta });
+            deltas.push({ name: group.name, delta, Si });
+        }
+        const totalImpact = deltas.reduce((sum, d) => sum + Math.abs(d.delta), 0);
+        const factors = [];
+        if (totalImpact > 0) {
+            for (const d of deltas) {
+                if (Math.abs(d.delta) > 0) {
+                    factors.push({ name: d.name, delta: d.delta, share: Math.abs(d.delta) / totalImpact, Si: d.Si });
+                }
+            }
+        }
+        factors.sort((a, b) => Math.abs(b.delta) - Math.abs(a.delta));
+        const m = factors.length;
+        let S_attr = 0;
+        if (m > 1) {
+            const H = -factors.reduce((sum, f) => sum + f.share * Math.log2(f.share), 0);
+            S_attr = H / Math.log2(m);
+        }
+        const perturbedScores = deltas.map(d => d.Si);
+        const mu = perturbedScores.reduce((a, b) => a + b, 0) / perturbedScores.length;
+        const variance = perturbedScores.reduce((sum, s) => sum + Math.pow(s - mu, 2), 0) / perturbedScores.length;
+        const sigma = Math.sqrt(variance);
+        const S_outcome = 1 - Math.min(1, sigma / Math.max(scoreRange, 1e-9));
+        const S_avg = (S_attr + S_outcome) / 2;
+        const penalty = Math.max(0.5, 1 - 0.1 * m);
+        const C = S_avg * penalty;
+        const factor_breakdown = factors.map(f => ({
+            factor: f.name,
+            attribution: Math.round(f.share * 100) + '%',
+            contribution: (f.delta >= 0 ? '+' : '') + f.delta.toFixed(1),
+            impact: Math.abs(f.delta) >= 2 ? 'high' : Math.abs(f.delta) >= 1 ? 'medium' : 'low',
+            explanation: this._factorExplanation(f.name, f.delta, f.share)
+        }));
+        const counterfactuals = factors.slice(0, 3).map(f => ({
+            scenario: `If ${f.name.toLowerCase()} were fully addressed`,
+            explanation: this._counterfactualExplanation(f.name, f.delta),
+            predicted_score_change: (f.delta >= 0 ? '+' : '') + f.delta.toFixed(1)
+        }));
+        const node_count = 1 + factors.length + 1;
+        const edge_count = factors.length * 2;
+        const topFactor = factors[0];
+        const summary = topFactor
+            ? `Analysis identified ${factors.length} influential feature group${factors.length !== 1 ? 's' : ''}. ${topFactor.name} is the dominant factor with ${Math.round(topFactor.share * 100)}% attribution. Attribution stability: ${Math.round(S_attr * 100)}% — ${S_attr > 0.7 ? 'well-balanced influence distribution' : S_attr > 0.4 ? 'moderately concentrated' : 'highly concentrated attribution'}. Confidence: ${Math.round(C * 100)}%.`
+            : 'No feature groups showed differential influence on this decision score. The score is insensitive to individual feature group removal.';
+        return {
+            analysis_id: analysisId,
+            processing_time_ms: Date.now() - startTime,
+            stability_metrics: { attribution_stability: { score: S_attr }, range_normalized_outcome_sensitivity: { score: S_outcome } },
+            explanation: { confidence: { score: C }, summary, factor_breakdown, counterfactuals },
+            lattice_graph: { node_count, edge_count },
+            perturbations
+        };
+    }
+    _factorExplanation(name, delta, share) {
+        const pct = Math.round(share * 100);
+        const pts = Math.abs(delta).toFixed(1);
+        const map = {
+            OWNERSHIP: delta > 0 ? `Clear ownership accounts for ${pct}% of total score influence. Removing it reduces score by ${pts} points — ownership is a critical driver.` : `Ownership has low differential impact (${pct}% attribution) in this decision context.`,
+            METRICS: delta > 0 ? `Defined success metrics drive ${pct}% of attribution. Without metrics, score drops ${pts} points, indicating strong metric dependency.` : `Metric definition shows low score sensitivity for this decision.`,
+            ASSUMPTIONS: delta > 0 ? `Captured assumptions contribute ${pct}% attribution. Removing assumption documentation reduces score by ${pts} points.` : `Assumptions have minimal differential score impact here.`,
+            FLAGS: delta > 0 ? `Risk flag status drives ${pct}% of score variation. Active flags are suppressing score by up to ${pts} points.` : `No high-severity flags detected; flag group shows low score sensitivity.`,
+            DEPENDENCIES: delta > 0 ? `Dependency mapping contributes ${pct}% attribution. Unmapped dependencies would reduce score by ${pts} points.` : `Dependencies show low differential score impact in this instance.`,
+        };
+        return map[name] || `Feature group contributes ${pct}% attribution with ${pts} point delta.`;
+    }
+    _counterfactualExplanation(name, delta) {
+        const map = {
+            OWNERSHIP: 'Assigning clear, named ownership would eliminate the ownership-driven score gap and satisfy the highest-weight attribution factor.',
+            METRICS: 'Defining at least one quantifiable success metric would resolve the metrics gap and directly improve the integrity score.',
+            ASSUMPTIONS: 'Explicitly documenting all underlying assumptions reduces epistemic risk and strengthens the decision audit trail.',
+            FLAGS: 'Resolving or mitigating flagged risk items would remove the flag-imposed score penalty and improve reliability.',
+            DEPENDENCIES: 'Mapping upstream and downstream dependencies explicitly eliminates the dependency-driven uncertainty penalty.',
+        };
+        return map[name] || `Addressing ${name.toLowerCase()} would change the score by ${Math.abs(delta).toFixed(1)} points.`;
+    }
+}
 
-    <!-- FORALLSECURE -->
-    <div class="co-block reveal">
-      <div class="co-header">
-        <span class="co-name">ForAllSecure</span>
-        <span class="co-role">UX Lead & Designer · 2019–2021</span>
-      </div>
-      <h3 class="co-title">Mayhem — ML-Driven Cybersecurity Platform</h3>
-      <p class="co-desc">Founded and led UX from zero. Built design systems, dashboards, and research frameworks for an autonomous security testing platform serving enterprise and Department of Defense customers.</p>
-      <div class="project-list">
-        <a href="/work/mayhem-results.html" class="project-link"><span>Results Page — Before & After Redesign</span><span class="arrow">↗</span></a>
-        <a href="/work/mayhem-design-system.html" class="project-link"><span>Design System — Built for 25 Engineers + DoD</span><span class="arrow">↗</span></a>
-      </div>
-    </div>
+// ============================================================
+// 2. APP STATE
+// ============================================================
+let btfal = null;
+let currentResults = null;
+let allDecisions = [];
+let filteredDecisions = [];
+let currentFilter = 'all';
+let searchQuery = '';
 
-    <!-- FEEDZAI -->
-    <div class="co-block reveal">
-      <div class="co-header">
-        <span class="co-name">Feedzai</span>
-        <span class="co-role">Head Researcher · 2018–2019</span>
-      </div>
-      <h3 class="co-title">AI/ML Fraud Detection Products</h3>
-      <p class="co-desc">Led research across three ML-powered fraud detection products for global financial institutions. Cut investigation time from days to hours.</p>
-      <div class="project-list">
-        <a href="/work/feedzai-fraud.html" class="project-link"><span>Fraud Detection Trio — Research & Redesign</span><span class="arrow">↗</span></a>
-      </div>
-    </div>
-  </section>
+const sampleText = `We decided to migrate our infrastructure to AWS by Q3. The team lead Sarah is responsible for the migration. We're assuming our current traffic patterns will remain stable during the transition. I'm worried about the timeline being tight, but we need to proceed given the cost savings of approximately 30% reduction in operational expenses.
 
-  <!-- CONTACT -->
-  <section class="contact reveal" id="contact">
-    <h2>Get in touch</h2>
-    <p>Exploring B-TFAL for your AI compliance roadmap, or looking for a design and engineering leader who ships production code.</p>
-    <div class="contact-lnk">
-      <a href="/cdn-cgi/l/email-protection#a0d3c1c2c1c8d292e0c7cdc1c9cc8ec3cfcd">Email ↗</a>
-      <a href="https://www.linkedin.com/in/sabahr/">LinkedIn ↗</a>
-    </div>
-  </section>
+We're going with microservices architecture instead of monolithic. This will allow better scalability. The success metric is 99.9% uptime. However, we still need to decide on the specific database solution - that's pending further evaluation.
 
-  <footer>
-    <div class="f-inner">
-      <span>© 2026 Sabah Rahman</span>
-      <div class="fl">
-        <a href="https://www.linkedin.com/in/sabahr/">LinkedIn</a>
-        <a href="/cdn-cgi/l/email-protection#fd8e9c9f9c958fcfbd9a909c9491d39e9290">Email</a>
-      </div>
-    </div>
-  </footer>
+Moving forward with the new UI framework. Performance improvement target is 40% faster load times. Budget concerns remain but technical benefits are clear. This decision depends on completing the AWS migration first.`;
 
-</div>
+// ============================================================
+// 3. EnhancedDecisionEngine CLASS
+// ============================================================
+class EnhancedDecisionEngine {
+    constructor() {
+        this.decisionPatterns = {
+            explicit: [
+                /(?:decided|choosing|selected|opted for|going with|will use|approved|committed to)\s+(.+?)(?:\.|$|because|since|as|,)/gi,
+                /(?:decision|choice)\s*:?\s*(.+?)(?:\.|$|because|since|as)/gi,
+                /we\s+(?:will|shall|are going to|plan to)\s+(.+?)(?:\.|$|because|since|as)/gi
+            ],
+            implied: [
+                /(?:moving forward with|proceeding with|implementing|adopting)\s+(.+?)(?:\.|$|because|since|as)/gi,
+                /(?:based on|given|considering)\s+(.+?),\s*(?:we|let's|the team)/gi,
+                /(?:instead of|rather than|as opposed to)\s+(.+?)(?:\.|$|,)/gi
+            ],
+            deferred: [
+                /(?:need to decide|pending decision|tbd|to be determined|will decide later|postponing|table this)\s*(?:on|about)?\s*(.+?)(?:\.|$)/gi,
+                /(?:open question|unresolved|still discussing|pending)\s*(?:about|on)?\s*(.+?)(?:\.|$)/gi
+            ]
+        };
+        this.dependencyPatterns = [
+            /(?:depends on|requires|blocked by|waiting for)\s+(.+?)(?:\.|$|,)/gi,
+            /(?:after|once)\s+(.+?)(?:is complete|completes|finishes)/gi
+        ];
+    }
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-  const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('vis');obs.unobserve(x.target)}})},{threshold:0.08});
-  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+    async extractDecisions(text) {
+        const decisions = [];
+        const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
 
-  const gate=document.getElementById('pwGate'),pwI=document.getElementById('pwInput'),pwS=document.getElementById('pwSubmit'),pwE=document.getElementById('pwError');
-  function tryU(){if(pwI.value==='2025'){gate.classList.add('hidden');document.body.style.overflow=''}else{pwI.classList.add('error');pwE.classList.add('show');setTimeout(()=>{pwI.classList.remove('error');pwE.classList.remove('show')},1500);pwI.value='';pwI.focus()}}
-  pwS.addEventListener('click',tryU);pwI.addEventListener('keydown',e=>{if(e.key==='Enter')tryU()});document.body.style.overflow='hidden';pwI.focus();
+        decisions.push(...this.extractByType('explicit', sentences));
+        decisions.push(...this.extractByType('implied', sentences));
+        decisions.push(...this.extractByType('deferred', sentences));
 
-  const aL=document.getElementById('amazonLock'),aI=document.getElementById('amazonPwInput'),aB=document.getElementById('amazonPwBtn');
-  function tryA(){if(aI.value==='3232'){aL.classList.add('unlocked')}else{aI.classList.add('error');setTimeout(()=>aI.classList.remove('error'),600);aI.value='';aI.focus()}}
-  aB.addEventListener('click',e=>{e.sto
+        const enrichedPromises = this.enrichDecisions(decisions);
+        return await Promise.all(enrichedPromises);
+    }
+
+    extractByType(type, sentences) {
+        const decisions = [];
+        const patterns = this.decisionPatterns[type];
+
+        sentences.forEach((sentence, idx) => {
+            patterns.forEach(pattern => {
+                let match;
+                const regex = new RegExp(pattern);
+                while ((match = regex.exec(sentence)) !== null) {
+                    if (match[1] && match[1].length > 5) {
+                        decisions.push({
+                            id: `decision_${Date.now()}_${idx}_${decisions.length}`,
+                            type: type,
+                            decision_text: match[1].trim(),
+                            source_context: sentence.trim(),
+                            confidence_score: type === 'explicit' ? 0.8 : type === 'implied' ? 0.6 : 0.4
+                        });
+                    }
+                }
+            });
+        });
+
+        return decisions;
+    }
+
+    enrichDecisions(decisions) {
+        const enriched = decisions.map(async (decision) => {
+            const ownership = this.extractOwnership(decision.source_context);
+            const assumptions = this.extractAssumptions(decision.source_context);
+            const metrics = this.extractMetrics(decision.source_context);
+            const dependencies = this.extractDependencies(decision.source_context);
+            const flags = this.applyRules(decision, ownership);
+
+            const qualityScore = this.calculateQualityScore({
+                ownership,
+                assumptions,
+                metrics,
+                flags,
+                type: decision.type
+            });
+
+            decision.ownership = ownership;
+            decision.assumptions = assumptions;
+            decision.success_metrics = metrics;
+            decision.dependencies = dependencies;
+            decision.flags = flags;
+            decision.quality_score = qualityScore.score;
+            decision.quality_level = qualityScore.level;
+            decision.quality_details = qualityScore.details;
+
+            const btfalAnalysis = await this.runBTFALAnalysis(decision);
+
+            return {
+                ...decision,
+                assumptions,
+                ownership,
+                success_metrics: metrics,
+                dependencies,
+                reversibility: {
+                    classification: 'reversible',
+                    reasoning: 'Decision can be reversed with minimal impact',
+                    risk_level: 'low'
+                },
+                flags,
+                quality_score: qualityScore.score,
+                quality_level: qualityScore.level,
+                quality_details: qualityScore.details,
+                btfal_analysis: btfalAnalysis
+            };
+        });
+
+        return enriched;
+    }
+
+    async runBTFALAnalysis(decision) {
+        if (!btfal) return null;
+
+        try {
+            const targetDecision = {
+                decision_text: decision.decision_text,
+                type: decision.type,
+                source_context: decision.source_context,
+                ownership: decision.ownership || { owner: 'unassigned', is_explicit: false },
+                assumptions: decision.assumptions || [],
+                success_metrics: decision.success_metrics || [],
+                dependencies: decision.dependencies || [],
+                flags: decision.flags || [],
+                quality_score: decision.quality_score,
+                quality_level: decision.quality_level,
+                quality_details: decision.quality_details
+            };
+
+            const result = await btfal.analyzeBehavior(targetDecision, decision.source_context, engine);
+
+            const attrStability = result.stability_metrics.attribution_stability.score;
+            const outcomeSensitivity = result.stability_metrics.range_normalized_outcome_sensitivity.score;
+
+            return {
+                analysis_id: result.analysis_id,
+                processing_time_ms: result.processing_time_ms,
+                attribution_stability: Math.round(attrStability * 100),
+                outcome_sensitivity: Math.round(outcomeSensitivity * 100),
+                confidence: Math.round(result.explanation.confidence.score * 100),
+                summary: result.explanation.summary,
+                factor_breakdown: result.explanation.factor_breakdown,
+                counterfactuals: result.explanation.counterfactuals,
+                lattice_graph: result.lattice_graph,
+                perturbations: result.perturbations.length
+            };
+        } catch (error) {
+            console.error('B-TFAL analysis failed:', error);
+            return null;
+        }
+    }
+
+    calculateQualityScore(data) {
+        let score = 0;
+        const details = [];
+        const nextSteps = [];
+
+        if (data.ownership && data.ownership.owner !== 'unassigned') {
+            score += 3;
+            details.push('✓ Clear ownership');
+        } else {
+            details.push('✗ Missing ownership');
+            nextSteps.push({
+                priority: 'high',
+                action: 'Assign an owner',
+                description: 'Identify who is accountable for this decision and its outcomes'
+            });
+        }
+
+        const metrics = data.metrics || data.success_metrics || [];
+        if (metrics.length > 0) {
+            score += 3;
+            details.push('✓ Success metrics defined');
+        } else {
+            details.push('✗ No success metrics');
+            nextSteps.push({
+                priority: 'high',
+                action: 'Define success metrics',
+                description: 'Establish measurable criteria to evaluate if this decision was successful'
+            });
+        }
+
+        const assumptions = data.assumptions || [];
+        if (assumptions.length > 0) {
+            score += 2;
+            details.push('✓ Assumptions documented');
+            nextSteps.push({
+                priority: 'medium',
+                action: 'Validate assumptions',
+                description: 'Test if the stated assumptions hold true before proceeding'
+            });
+        } else {
+            details.push('✗ No assumptions identified');
+            nextSteps.push({
+                priority: 'medium',
+                action: 'Document assumptions',
+                description: 'Identify and record what you\'re assuming to be true for this decision'
+            });
+        }
+
+        const flags = data.flags || [];
+        if (!flags.some(f => f.severity === 'high')) {
+            score += 2;
+            details.push('✓ No critical issues');
+        } else {
+            details.push('✗ Has critical issues');
+            nextSteps.unshift({
+                priority: 'critical',
+                action: 'Resolve critical issues',
+                description: 'Address high-severity flags before moving forward'
+            });
+        }
+
+        if (data.type === 'deferred') {
+            nextSteps.push({
+                priority: 'high',
+                action: 'Set decision deadline',
+                description: 'Establish a timeframe for making this pending decision'
+            });
+        }
+
+        if (score >= 8) {
+            nextSteps.push({
+                priority: 'low',
+                action: 'Document and share',
+                description: 'Record decision rationale and communicate to stakeholders'
+            });
+        }
+
+        const level = score >= 8 ? 'high' : score >= 5 ? 'medium' : 'low';
+
+        return { score, level, details, nextSteps };
+    }
+
+    extractDependencies(context) {
+        const dependencies = [];
+        this.dependencyPatterns.forEach(pattern => {
+            let match;
+            const regex = new RegExp(pattern);
+            while ((match = regex.exec(context)) !== null) {
+                if (match[1] && match[1].length > 5) {
+                    dependencies.push(match[1].trim());
+                }
+            }
+        });
+        return dependencies;
+    }
+
+    extractAssumptions(context) {
+        const assumptions = [];
+        const pattern = /(?:assuming|assume|assumption)\s+(.+?)(?:\.|$|,)/gi;
+        let match;
+        while ((match = pattern.exec(context)) !== null) {
+            if (match[1] && match[1].length > 10) {
+                assumptions.push({ text: match[1].trim(), type: 'stated', confidence: 0.7 });
+            }
+        }
+        return assumptions;
+    }
+
+    extractOwnership(context) {
+        const patterns = [
+            /(?:owner|responsible|accountable|lead|driving|owned by)\s*:?\s*([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)/gi,
+            /([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)\s+(?:is|will be)\s+(?:leading|owning|responsible for|accountable)/gi
+        ];
+        let owner = null;
+        patterns.forEach(pattern => {
+            let match;
+            while ((match = pattern.exec(context)) !== null) {
+                if (match[1]) owner = match[1].trim();
+            }
+        });
+        return { owner: owner || 'unassigned', owner_clarity_score: owner ? 8 : 2, is_explicit: !!owner };
+    }
+
+    extractMetrics(context) {
+        const metrics = [];
+        const patterns = [
+            /(?:metric|measure|kpi|target|goal|objective)\s*:?\s*(.+?)(?:\.|$)/gi,
+            /(?:success|measured by|tracking)\s*:?\s*(.+?)(?:\.|$)/gi,
+            /(?:\d+%|\$[\d,]+|\d+\s*(?:users|customers|hours|days|weeks))/gi
+        ];
+        patterns.forEach(pattern => {
+            let match;
+            while ((match = pattern.exec(context)) !== null) {
+                if (match[1] && match[1].length > 5) {
+                    metrics.push({ metric: match[1].trim(), is_quantifiable: /\d/.test(match[1]) });
+                } else if (match[0]) {
+                    metrics.push({ metric: match[0].trim(), is_quantifiable: true });
+                }
+            }
+        });
+        return metrics;
+    }
+
+    applyRules(decision, ownership) {
+        const flags = [];
+        if (ownership.owner_clarity_score < 3) {
+            flags.push({
+                type: 'ownership_unclear',
+                severity: 'high',
+                message: 'Decision ownership is not clearly defined'
+            });
+        }
+        return flags;
+    }
+}
+
+const engine = new EnhancedDecisionEngine();
+
+// ============================================================
+// 4. UTILITY
+// ============================================================
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+function showToast(message, type = 'success') {
+    const toast = document.createElement('div');
+    toast.className = `alert ${type === 'success' ? 'alert-success' : 'alert-error'} fixed top-5 right-5 w-auto max-w-sm z-50 shadow-lg toast-slide`;
+    toast.innerHTML = `<span>${message}</span>`;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
+}
+
+function closeDecisionModal() {
+    const modal = document.querySelector('dialog.modal-open');
+    if (modal) {
+        modal.remove();
+        document.body.style.overflow = '';
+    }
+}
+
+// ============================================================
+// 5. FILE UPLOAD
+// ============================================================
+function handleFileUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+        const content = e.target.result;
+        document.getElementById('inputText').value = content;
+        showToast(`File "${file.name}" loaded successfully!`, 'success');
+    };
+
+    reader.onerror = function() {
+        showToast('Error reading file. Please try again.', 'error');
+    };
+
+    if (file.type === 'text/plain' || file.name.endsWith('.txt')) {
+        reader.readAsText(file);
+    } else {
+        showToast('File type not fully supported yet. Please paste text manually.', 'error');
+        event.target.value = '';
+    }
+}
+
+// ============================================================
+// 6. EXECUTIVE SUMMARY
+// ============================================================
+function generateExecutiveSummary(decisions) {
+    const unassigned = decisions.filter(d => d.ownership.owner === 'unassigned');
+    const deferred = decisions.filter(d => d.type === 'deferred');
+    const withDeps = decisions.filter(d => d.dependencies.length > 0);
+    const lowQuality = decisions.filter(d => d.quality_level === 'low').sort((a, b) => a.quality_score - b.quality_score);
+
+    const priorities = [];
+
+    if (unassigned.length > 0) {
+        priorities.push({
+            priority: 'critical',
+            action: `Assign owners to ${unassigned.length} decision${unassigned.length > 1 ? 's' : ''}`,
+            impact: 'Decisions without clear ownership lead to delays and accountability gaps',
+            decisions: unassigned.slice(0, 2).map(d => d.decision_text)
+        });
+    }
+
+    if (deferred.length > 0) {
+        priorities.push({
+            priority: 'high',
+            action: `Resolve ${deferred.length} pending decision${deferred.length > 1 ? 's' : ''}`,
+            impact: 'Open decisions create bottlenecks and project uncertainty',
+            decisions: deferred.slice(0, 2).map(d => d.decision_text)
+        });
+    }
+
+    if (lowQuality.length > 0 && priorities.length < 3) {
+        priorities.push({
+            priority: 'high',
+            action: `Improve ${lowQuality.length} low-quality decision${lowQuality.length > 1 ? 's' : ''}`,
+            impact: 'Missing metrics and assumptions increase execution risk',
+            decisions: lowQuality.slice(0, 2).map(d => d.decision_text)
+        });
+    }
+
+    if (withDeps.length > 0 && priorities.length < 3) {
+        priorities.push({
+            priority: 'medium',
+            action: `Review ${withDeps.length} decision${withDeps.length > 1 ? 's' : ''} with dependencies`,
+            impact: 'Dependencies may block progress - verify critical path',
+            decisions: withDeps.slice(0, 2).map(d => d.decision_text)
+        });
+    }
+
+    if (priorities.length === 0) {
+        return `
+            <div class="alert alert-success mb-6 slide-up">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                <div>
+                    <h3 class="font-bold">All Decisions in Good Shape</h3>
+                    <div class="text-sm">No critical actions needed — focus on execution</div>
+                </div>
+            </div>
+        `;
+    }
+
+    return `
+        <div class="alert alert-warning mb-6 slide-up flex-col items-start">
+            <div class="flex items-center gap-2 w-full">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                <span class="font-bold">Recommended Next Steps</span>
+            </div>
+            <div class="w-full mt-2 space-y-2">
+                ${priorities.map(p => `
+                    <div class="flex items-center gap-2">
+                        <span class="badge badge-error badge-sm">${p.priority}</span>
+                        <span class="text-sm font-semibold">${escapeHtml(p.action)}</span>
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+    `;
+}
+
+// ============================================================
+// 7. ANALYZE
+// ============================================================
+async function analyzeDecisions() {
+    const inputText = document.getElementById('inputText').value.trim();
+    if (!inputText) return;
+
+    document.getElementById('processingCard').classList.remove('hidden');
+    document.getElementById('resultsArea').classList.add('hidden');
+
+    setTimeout(async () => {
+        const decisions = await engine.extractDecisions(inputText);
+
+        currentResults = {
+            analysis_metadata: {
+                timestamp: new Date().toISOString(),
+                input_length: inputText.length,
+                decisions_extracted: decisions.length,
+                processing_version: '2.0.0-enhanced'
+            },
+            decisions: decisions,
+            input_text: inputText
+        };
+
+        allDecisions = decisions;
+        filteredDecisions = decisions;
+
+        document.getElementById('processingCard').classList.add('hidden');
+        displayResults();
+        updateSessionInfo();
+    }, 1500);
+}
+
+// ============================================================
+// 8. DISPLAY RESULTS
+// ============================================================
+function displayResults() {
+    document.getElementById('resultsArea').classList.remove('hidden');
+
+    const decisions = filteredDecisions;
+    const executiveSummary = generateExecutiveSummary(allDecisions);
+
+    document.getElementById('statsContainer').innerHTML = `
+        <div class="mt-12"></div>
+        ${executiveSummary}
+    `;
+
+    document.getElementById('decisionsContainer').innerHTML = `
+        <div class="flex gap-2 flex-wrap items-center mb-4 mt-6">
+            <input type="text" class="input input-bordered input-sm flex-1 min-w-48" id="searchInputInline" placeholder="Search decisions..." value="${escapeHtml(searchQuery)}">
+            <div class="join">
+                <button class="join-item btn btn-sm ${currentFilter === 'all' ? 'btn-primary' : 'btn-ghost'}" data-filter="all">All</button>
+                <button class="join-item btn btn-sm ${currentFilter === 'high-quality' ? 'btn-primary' : 'btn-ghost'}" data-filter="high-quality">High Integrity</button>
+                <button class="join-item btn btn-sm ${currentFilter === 'needs-attention' ? 'btn-primary' : 'btn-ghost'}" data-filter="needs-attention">Needs Attention</button>
+                <button class="join-item btn btn-sm ${currentFilter === 'unassigned' ? 'btn-primary' : 'btn-ghost'}" data-filter="unassigned">Unassigned</button>
+            </div>
+        </div>
+        <h3 class="font-bold text-base mb-3">Decisions (${decisions.length})</h3>
+        ${renderDecisionsTable(decisions)}
+    `;
+
+    const searchEl = document.getElementById('searchInputInline');
+    if (searchEl) {
+        searchEl.addEventListener('input', handleSearch);
+    }
+    document.querySelectorAll('#decisionsContainer .join-item').forEach(btn => {
+        btn.addEventListener('click', () => {
+            currentFilter = btn.getAttribute('data-filter');
+            applyFilters();
+        });
+    });
+}
+
+// ============================================================
+// 9. RENDER TABLE
+// ============================================================
+function renderDecisionsTable(decisions) {
+    if (decisions.length === 0) {
+        return `<div class="text-center py-12 text-base-content/50 text-sm">No decisions match the current filter.</div>`;
+    }
+    return `
+        <div class="card bg-base-100 shadow-sm border border-base-200 overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="table table-zebra">
+                    <thead>
+                        <tr>
+                            <th>Decision</th>
+                            <th>Type</th>
+                            <th>Owner</th>
+                            <th>Score</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${decisions.map((decision, idx) => renderDecisionRow(decision, idx)).join('')}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    `;
+}
+
+function renderDecisionRow(decision, idx) {
+    const typeClass = decision.type === 'explicit' ? 'badge-info' : decision.type === 'implied' ? 'badge-warning' : 'badge-error';
+    const qualityClass = decision.quality_level === 'high' ? 'badge-success' : decision.quality_level === 'medium' ? 'badge-warning' : 'badge-error';
+    const statusText = decision.quality_level === 'high' ? 'Ready' : decision.quality_level === 'medium' ? 'Review' : 'Needs Work';
+    const ownerClass = decision.ownership.owner === 'unassigned' ? 'text-error font-bold' : 'font-semibold';
+
+    return `
+        <tr class="hover cursor-pointer" onclick="openDecisionModal(${idx})" data-decision-index="${idx}">
+            <td class="max-w-xs">
+                <div class="font-semibold text-sm mb-1">${escapeHtml(decision.decision_text)}</div>
+                <div class="flex gap-2 items-center flex-wrap mt-1">
+                    ${decision.dependencies.length > 0 ? `<span class="text-xs text-base-content/50">${decision.dependencies.length} ${decision.dependencies.length === 1 ? 'dependency' : 'dependencies'}</span>` : ''}
+                    ${decision.btfal_analysis ? `<span class="badge badge-primary badge-sm">B-TFAL</span>` : ''}
+                </div>
+            </td>
+            <td><span class="badge ${typeClass} badge-sm">${decision.type}</span></td>
+            <td><span class="${ownerClass} text-sm">${decision.ownership.owner === 'unassigned' ? 'UNASSIGNED' : escapeHtml(decision.ownership.owner)}</span></td>
+            <td><span class="badge ${qualityClass}">${decision.quality_score}/10</span></td>
+            <td><span class="text-sm font-semibold ${decision.quality_level === 'high' ? 'text-success' : decision.quality_level === 'medium' ? 'text-warning' : 'text-error'}">${statusText}</span></td>
+        </tr>
+    `;
+}
+
+// ============================================================
+// 10. DECISION MODAL
+// ============================================================
+function openDecisionModal(index) {
+    const decision = filteredDecisions[index];
+    const modal = document.createElement('dialog');
+    modal.className = 'modal modal-open slide-up';
+
+    const typeClass = decision.type === 'explicit' ? 'badge-info' : decision.type === 'implied' ? 'badge-warning' : 'badge-error';
+    const qualityClass = decision.quality_level === 'high' ? 'badge-success' : decision.quality_level === 'medium' ? 'badge-warning' : 'badge-error';
+
+    const hasFailingDetails = decision.quality_score < 10 && decision.quality_details.filter(d => d.includes('✗')).length > 0;
+
+    const nextStepsHtml = hasFailingDetails ? (() => {
+        const steps = engine.calculateQualityScore({
+            ownership: decision.ownership,
+            assumptions: decision.assumptions,
+            metrics: decision.success_metrics,
+            flags: decision.flags,
+            type: decision.type
+        }).nextSteps;
+        const priorityBadge = { critical: 'badge-error', high: 'badge-warning', medium: 'badge-primary', low: 'badge-ghost' };
+        return `
+            <div class="card bg-base-200 border border-base-300">
+                <div class="card-body">
+                    <h4 class="card-title text-base flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" viewBox="0 0 20 20" fill="currentColor"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"/></svg>
+                        Recommended Next Steps
+                    </h4>
+                    <div class="space-y-2 mt-1">
+                        ${steps.map((step, i) => `
+                            <div class="flex flex-col gap-1 bg-base-100 rounded-lg p-3 border border-base-300">
+                                <div class="flex items-center gap-2">
+                                    <span class="badge ${priorityBadge[step.priority] || 'badge-ghost'} badge-sm">${step.priority}</span>
+                                    <span class="font-semibold text-sm">${i + 1}. ${escapeHtml(step.action)}</span>
+                                </div>
+                                <p class="text-xs text-base-content/60 ml-1">${escapeHtml(step.description)}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            </div>
+        `;
+    })() : `
+        <div class="alert alert-success">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            <div>
+                <h3 class="font-bold">Decision Ready</h3>
+                <div class="text-sm">This decision has high integrity — no actions needed</div>
+            </div>
+        </div>
+    `;
+
+    const btfalHtml = decision.btfal_analysis ? `
+        <div class="card bg-primary/5 border border-primary/20 mb-4">
+            <div class="card-body">
+                <div class="flex items-center gap-3 mb-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary shrink-0" viewBox="0 0 20 20" fill="currentColor"><path d="M10 3.5a1.5 1.5 0 013 0V4a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-.5a1.5 1.5 0 000 3h.5a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-.5a1.5 1.5 0 00-3 0v.5a1 1 0 01-1 1H6a1 1 0 01-1-1v-3a1 1 0 00-1-1h-.5a1.5 1.5 0 010-3H4a1 1 0 001-1V6a1 1 0 011-1h3a1 1 0 001-1v-.5z"/></svg>
+                    <div>
+                        <div class="font-bold text-primary">B-TFAL Reasoning Analysis</div>
+                        <div class="text-xs text-base-content/60">Behavioral Temporal Feature Attribution Lattice</div>
+                    </div>
+                </div>
+                <p class="text-sm text-base-content/80 mb-3">${escapeHtml(decision.btfal_analysis.summary)}</p>
+                <div class="stats stats-horizontal shadow w-full my-3 bg-base-100">
+                    <div class="stat px-4 py-2">
+                        <div class="stat-title text-xs">Attr Stability</div>
+                        <div class="stat-value text-primary text-2xl">${decision.btfal_analysis.attribution_stability}%</div>
+                    </div>
+                    <div class="stat px-4 py-2">
+                        <div class="stat-title text-xs">Sensitivity</div>
+                        <div class="stat-value text-primary text-2xl">${decision.btfal_analysis.outcome_sensitivity}%</div>
+                    </div>
+                    <div class="stat px-4 py-2">
+                        <div class="stat-title text-xs">Confidence</div>
+                        <div class="stat-value text-primary text-2xl">${decision.btfal_analysis.confidence}%</div>
+                    </div>
+                    <div class="stat px-4 py-2">
+                        <div class="stat-title text-xs">Processing</div>
+                        <div class="stat-value text-accent text-2xl">${decision.btfal_analysis.processing_time_ms}ms</div>
+                    </div>
+                </div>
+                ${decision.btfal_analysis.counterfactuals && decision.btfal_analysis.counterfactuals.length > 0 ? `
+                    <div class="mt-2">
+                        <div class="text-sm font-bold mb-2 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-primary" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7.707 3.293a1 1 0 010 1.414L5.414 7H11a7 7 0 017 7v2a1 1 0 11-2 0v-2a5 5 0 00-5-5H5.414l2.293 2.293a1 1 0 11-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                            What-If Scenarios
+                        </div>
+                        ${decision.btfal_analysis.counterfactuals.map((cf, cfIdx) => `
+                            <div class="collapse collapse-arrow bg-base-200 mb-1">
+                                <input type="checkbox" name="cf-accordion-${index}-${cfIdx}" />
+                                <div class="collapse-title text-sm font-semibold py-2 min-h-0">${escapeHtml(cf.scenario)}</div>
+                                <div class="collapse-content text-xs">
+                                    <p class="text-base-content/70 mb-1">${escapeHtml(cf.explanation)}</p>
+                                    <p class="text-success font-bold">Score Change: ${escapeHtml(cf.predicted_score_change)}</p>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                ` : ''}
+                <button onclick="showBTFALDetails(${index})" class="btn btn-primary btn-sm w-full mt-3">View Full B-TFAL Analysis</button>
+            </div>
+        </div>
+    ` : '';
+
+    modal.innerHTML = `
+        <div class="modal-box max-w-2xl" onclick="event.stopPropagation()">
+            <form method="dialog"><button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button></form>
+            <div class="flex items-center gap-2 mb-3">
+                <span class="badge ${typeClass} badge-sm" title="${decision.type === 'explicit' ? 'Explicitly stated decision' : decision.type === 'implied' ? 'Decision inferred from context' : 'Decision pending resolution'}">${decision.type}</span>
+                <span class="badge ${qualityClass}">Integrity: ${decision.quality_score}/10</span>
+            </div>
+            <h3 class="font-bold text-lg mb-4">${escapeHtml(decision.decision_text)}</h3>
+
+            <div class="grid grid-cols-3 gap-3 bg-base-200 rounded-xl p-4 mb-4">
+                <div>
+                    <div class="text-xs text-base-content/50 uppercase font-bold mb-1">Owner</div>
+                    <div class="text-sm font-semibold ${decision.ownership.owner === 'unassigned' ? 'text-error' : ''}">${decision.ownership.owner === 'unassigned' ? 'UNASSIGNED' : escapeHtml(decision.ownership.owner)}</div>
+                </div>
+                <div>
+                    <div class="text-xs text-base-content/50 uppercase font-bold mb-1">Metrics</div>
+                    <div class="text-sm">${decision.success_metrics.length} defined</div>
+                </div>
+                <div>
+                    <div class="text-xs text-base-content/50 uppercase font-bold mb-1">Assumptions</div>
+                    <div class="text-sm">${decision.assumptions.length} identified</div>
+                </div>
+            </div>
+
+            ${decision.dependencies.length > 0 ? `
+                <div class="alert alert-warning mb-4 py-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                    <span class="text-sm"><strong>Dependencies:</strong> ${decision.dependencies.map(d => escapeHtml(d)).join(', ')}</span>
+                </div>
+            ` : ''}
+
+            <div class="card bg-base-200 border border-base-300 mb-4">
+                <div class="card-body py-3">
+                    <h4 class="font-bold text-sm uppercase tracking-wide text-base-content/60">Integrity Breakdown</h4>
+                    <div class="space-y-1 mt-1">
+                        ${decision.quality_details.map(detail => `
+                            <div class="text-sm bg-base-100 rounded px-3 py-2">${detail}</div>
+                        `).join('')}
+                    </div>
+                </div>
+            </div>
+
+            ${btfalHtml}
+
+            ${nextStepsHtml}
+        </div>
+        <form method="dialog" class="modal-backdrop"><button>close</button></form>
+    `;
+
+    document.body.appendChild(modal);
+    document.body.style.overflow = 'hidden';
+
+    // Close on backdrop click via form submission
+    modal.addEventListener('close', () => {
+        modal.remove();
+        document.body.style.overflow = '';
+    });
+}
+
+// ============================================================
+// 11. B-TFAL DETAILS MODAL
+// ============================================================
+function showBTFALDetails(index) {
+    const decision = filteredDecisions[index];
+    if (!decision || !decision.btfal_analysis) return;
+
+    const btfalData = decision.btfal_analysis;
+
+    // Close any existing modal first
+    const existing = document.querySelector('dialog.modal-open');
+    if (existing) {
+        existing.remove();
+        document.body.style.overflow = 'hidden';
+    }
+
+    const modal = document.createElement('dialog');
+    modal.className = 'modal modal-open slide-up';
+
+    modal.innerHTML = `
+        <div class="modal-box max-w-3xl" onclick="event.stopPropagation()">
+            <form method="dialog"><button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button></form>
+            <div class="flex items-center gap-3 mb-6">
+                <div class="badge badge-primary badge-lg p-4">B-TFAL</div>
+                <div>
+                    <h3 class="font-bold text-xl">B-TFAL Analysis</h3>
+                    <p class="text-sm text-base-content/60">Behavioral Temporal Feature Attribution Lattice</p>
+                </div>
+            </div>
+
+            <div class="alert alert-info mb-4">
+                <span class="text-sm font-medium">${escapeHtml(decision.decision_text)}</span>
+            </div>
+
+            <div class="stats shadow w-full mb-6">
+                <div class="stat">
+                    <div class="stat-title">Attribution Stability</div>
+                    <div class="stat-value text-primary">${btfalData.attribution_stability}%</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-title">Outcome Sensitivity</div>
+                    <div class="stat-value text-primary">${btfalData.outcome_sensitivity}%</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-title">Confidence</div>
+                    <div class="stat-value text-secondary">${btfalData.confidence}%</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-title">Processing</div>
+                    <div class="stat-value text-accent text-2xl">${btfalData.processing_time_ms}ms</div>
+                </div>
+            </div>
+
+            <div class="card bg-base-200 mb-4">
+                <div class="card-body py-3">
+                    <h4 class="font-bold text-sm mb-1">Summary</h4>
+                    <p class="text-sm">${escapeHtml(btfalData.summary)}</p>
+                </div>
+            </div>
+
+            ${btfalData.factor_breakdown && btfalData.factor_breakdown.length > 0 ? `
+                <h4 class="font-bold mb-3">Interventional Factor Breakdown</h4>
+                ${btfalData.factor_breakdown.map(factor => `
+                    <div class="card bg-base-100 border border-base-200 mb-2">
+                        <div class="card-body py-3">
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold">${escapeHtml(factor.factor)}</span>
+                                <span class="badge badge-primary">${escapeHtml(factor.attribution)}</span>
+                            </div>
+                            <p class="text-xs text-base-content/60">Contribution: ${escapeHtml(factor.contribution)} (${escapeHtml(factor.impact)} impact)</p>
+                            <p class="text-xs">${escapeHtml(factor.explanation)}</p>
+                        </div>
+                    </div>
+                `).join('')}
+            ` : ''}
+
+            ${btfalData.counterfactuals && btfalData.counterfactuals.length > 0 ? `
+                <h4 class="font-bold mt-4 mb-3 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-primary" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7.707 3.293a1 1 0 010 1.414L5.414 7H11a7 7 0 017 7v2a1 1 0 11-2 0v-2a5 5 0 00-5-5H5.414l2.293 2.293a1 1 0 11-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                    Counterfactual Scenarios
+                </h4>
+                ${btfalData.counterfactuals.map(cf => `
+                    <div class="card bg-base-100 border border-base-200 mb-2">
+                        <div class="card-body py-3">
+                            <p class="font-semibold text-sm">${escapeHtml(cf.scenario)}</p>
+                            <p class="text-xs text-base-content/60 mt-1">${escapeHtml(cf.explanation)}</p>
+                            <p class="text-xs text-success font-bold mt-1">Predicted Score Change: ${escapeHtml(cf.predicted_score_change)}</p>
+                        </div>
+                    </div>
+                `).join('')}
+            ` : ''}
+
+            <div class="stats shadow w-full mt-4">
+                <div class="stat text-center">
+                    <div class="stat-value text-primary">${btfalData.lattice_graph.node_count}</div>
+                    <div class="stat-title">Nodes</div>
+                </div>
+                <div class="stat text-center">
+                    <div class="stat-value text-primary">${btfalData.lattice_graph.edge_count}</div>
+                    <div class="stat-title">Edges</div>
+                </div>
+                <div class="stat text-center">
+                    <div class="stat-value text-primary">${btfalData.perturbations}</div>
+                    <div class="stat-title">Perturbations</div>
+                </div>
+            </div>
+
+            ${btfalData.analysis_id ? `
+                <div class="mt-4 text-xs text-base-content/40 font-mono break-all">ID: ${escapeHtml(btfalData.analysis_id)}</div>
+            ` : ''}
+        </div>
+        <form method="dialog" class="modal-backdrop"><button>close</button></form>
+    `;
+
+    document.body.appendChild(modal);
+
+    modal.addEventListener('close', () => {
+        modal.remove();
+        document.body.style.overflow = '';
+    });
+}
+
+// ============================================================
+// 12. SEARCH & FILTER
+// ============================================================
+function handleSearch(e) {
+    searchQuery = e.target.value.toLowerCase();
+    applyFilters();
+}
+
+function applyFilters() {
+    let decisions = allDecisions;
+
+    if (searchQuery) {
+        decisions = decisions.filter(d =>
+            d.decision_text.toLowerCase().includes(searchQuery) ||
+            d.source_context.toLowerCase().includes(searchQuery) ||
+            d.ownership.owner.toLowerCase().includes(searchQuery)
+        );
+    }
+
+    if (currentFilter !== 'all') {
+        switch (currentFilter) {
+            case 'high-quality':
+                decisions = decisions.filter(d => d.quality_level === 'high');
+                break;
+            case 'needs-attention':
+                decisions = decisions.filter(d => d.quality_level === 'low');
+                break;
+            case 'unassigned':
+                decisions = decisions.filter(d => d.ownership.owner === 'unassigned');
+                break;
+        }
+    }
+
+    filteredDecisions = decisions;
+    displayResults();
+}
+
+// ============================================================
+// 13. SESSION MANAGEMENT
+// ============================================================
+function saveSession() {
+    if (!currentResults) {
+        showToast('No analysis to save. Please analyze some decisions first.', 'error');
+        return;
+    }
+    showSaveModal();
+}
+
+function showSaveModal() {
+    const modal = document.createElement('dialog');
+    modal.className = 'modal modal-open';
+    modal.innerHTML = `
+        <div class="modal-box max-w-md" onclick="event.stopPropagation()">
+            <form method="dialog"><button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button></form>
+            <h3 class="font-bold text-lg mb-4">Save Session</h3>
+            <div class="form-control mb-4">
+                <label class="label"><span class="label-text font-semibold">Session Name</span></label>
+                <input type="text" id="sessionNameInput" class="input input-bordered w-full" value="Session ${new Date().toLocaleDateString()}">
+            </div>
+            <div class="modal-action">
+                <form method="dialog"><button class="btn btn-ghost btn-sm">Cancel</button></form>
+                <button class="btn btn-primary btn-sm" onclick="confirmSaveSession()">Save</button>
+            </div>
+        </div>
+        <form method="dialog" class="modal-backdrop"><button>close</button></form>
+    `;
+    document.body.appendChild(modal);
+    setTimeout(() => {
+        const inp = document.getElementById('sessionNameInput');
+        if (inp) { inp.focus(); inp.select(); }
+    }, 50);
+    modal.addEventListener('close', () => { modal.remove(); });
+}
+
+function confirmSaveSession() {
+    const sessionName = document.getElementById('sessionNameInput').value.trim();
+    if (!sessionName) {
+        showToast('Please enter a session name', 'error');
+        return;
+    }
+
+    const sessions = JSON.parse(localStorage.getItem('decisionSessions') || '{}');
+    sessions[sessionName] = {
+        ...currentResults,
+        saved_at: new Date().toISOString()
+    };
+
+    localStorage.setItem('decisionSessions', JSON.stringify(sessions));
+    const modal = document.querySelector('dialog.modal-open');
+    if (modal) modal.remove();
+    showToast(`Session "${sessionName}" saved successfully!`, 'success');
+    updateSessionInfo(sessionName);
+    refreshSidebar();
+}
+
+function loadSession() {
+    const sessions = JSON.parse(localStorage.getItem('decisionSessions') || '{}');
+    const sessionNames = Object.keys(sessions);
+
+    if (sessionNames.length === 0) {
+        showToast('No saved sessions found', 'error');
+        return;
+    }
+
+    showLoadModal(sessions, sessionNames);
+}
+
+function showLoadModal(sessions, sessionNames) {
+    sessionNames.sort((a, b) => new Date(sessions[b].saved_at) - new Date(sessions[a].saved_at));
+
+    const modal = document.createElement('dialog');
+    modal.className = 'modal modal-open';
+    modal.innerHTML = `
+        <div class="modal-box max-w-md" onclick="event.stopPropagation()">
+            <form method="dialog"><button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button></form>
+            <h3 class="font-bold text-lg mb-4">Load Session</h3>
+            <div class="space-y-2 max-h-80 overflow-y-auto">
+                ${sessionNames.map(name => {
+                    const session = sessions[name];
+                    const date = new Date(session.saved_at);
+                    const dateStr = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                    const decisionsCount = session.decisions.length;
+                    return `
+                        <div class="card bg-base-200 border border-base-300 cursor-pointer hover:border-primary hover:bg-base-100 transition-all"
+                             onclick="loadSessionByName('${escapeHtml(name).replace(/'/g, "\\'")}')">
+                            <div class="card-body py-3 px-4">
+                                <div class="font-semibold text-sm">${escapeHtml(name)}</div>
+                                <div class="text-xs text-base-content/50">${decisionsCount} decision${decisionsCount === 1 ? '' : 's'} &bull; ${dateStr}</div>
+                            </div>
+                        </div>
+                    `;
+                }).join('')}
+            </div>
+        </div>
+        <form method="dialog" class="modal-backdrop"><button>close</button></form>
+    `;
+    document.body.appendChild(modal);
+    modal.addEventListener('close', () => { modal.remove(); });
+}
+
+function loadSessionByName(sessionName) {
+    const sessions = JSON.parse(localStorage.getItem('decisionSessions') || '{}');
+    if (!sessions[sessionName]) return;
+
+    currentResults = sessions[sessionName];
+    allDecisions = currentResults.decisions;
+    filteredDecisions = currentResults.decisions;
+
+    document.getElementById('inputText').value = currentResults.input_text || '';
+    const modal = document.querySelector('dialog.modal-open');
+    if (modal) modal.remove();
+    displayResults();
+    updateSessionInfo(sessionName);
+    refreshSidebar();
+    showToast(`Session "${sessionName}" loaded`, 'success');
+}
+
+function updateSessionInfo(name) {
+    const info = name ? `Session: ${name}` : `Session: ${new Date().toLocaleString()}`;
+    document.getElementById('sessionInfo').textContent = info;
+}
+
+// ============================================================
+// 14. SIDEBAR
+// ============================================================
+function refreshSidebar() {
+    const sessions = JSON.parse(localStorage.getItem('decisionSessions') || '{}');
+    const sessionNames = Object.keys(sessions);
+    const sidebarContent = document.getElementById('sidebarContent');
+
+    if (sessionNames.length === 0) {
+        sidebarContent.innerHTML = '<p class="text-sm text-base-content/50 text-center py-8 px-4 leading-relaxed">No saved sessions yet. Analyze decisions and save your first session.</p>';
+        return;
+    }
+
+    sessionNames.sort((a, b) => new Date(sessions[b].saved_at) - new Date(sessions[a].saved_at));
+
+    sidebarContent.innerHTML = sessionNames.map(name => {
+        const session = sessions[name];
+        const date = new Date(session.saved_at);
+        const dateStr = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        const decisionsCount = session.decisions.length;
+        const isActive = currentResults && currentResults.saved_at === session.saved_at;
+
+        return `
+            <div class="group relative rounded-lg p-3 cursor-pointer hover:bg-base-200 border ${isActive ? 'border-primary bg-primary/5' : 'border-transparent'} hover:border-primary/30 transition-all mb-1" onclick="loadSessionFromSidebar('${escapeHtml(name).replace(/'/g, "\\'")}')">
+                <p class="font-semibold text-sm truncate pr-6">${escapeHtml(name)}</p>
+                <p class="text-xs text-base-content/50">${decisionsCount} decision${decisionsCount === 1 ? '' : 's'} &bull; ${dateStr}</p>
+                <button class="btn btn-ghost btn-xs btn-circle absolute right-2 top-2 opacity-0 group-hover:opacity-100 text-error" onclick="event.stopPropagation(); deleteSession('${escapeHtml(name).replace(/'/g, "\\'")}');" title="Delete session">✕</button>
+            </div>
+        `;
+    }).join('');
+}
+
+function deleteSession(sessionName) {
+    if (!confirm(`Delete session "${sessionName}"?`)) return;
+
+    const sessions = JSON.parse(localStorage.getItem('decisionSessions') || '{}');
+    delete sessions[sessionName];
+    localStorage.setItem('decisionSessions', JSON.stringify(sessions));
+
+    refreshSidebar();
+    showToast(`Session "${sessionName}" deleted`, 'success');
+}
+
+function loadSessionFromSidebar(sessionName) {
+    const sessions = JSON.parse(localStorage.getItem('decisionSessions') || '{}');
+    if (!sessions[sessionName]) return;
+
+    currentResults = sessions[sessionName];
+    allDecisions = currentResults.decisions;
+    filteredDecisions = currentResults.decisions;
+
+    document.getElementById('inputText').value = currentResults.input_text || '';
+    displayResults();
+    updateSessionInfo(sessionName);
+    refreshSidebar();
+}
+
+// ============================================================
+// 15. INIT — script is at bottom of body so DOM is already ready
+// ============================================================
+btfal = new BehavioralTFAL();
+refreshSidebar();
+document.getElementById('loadSampleBtn').addEventListener('click', () => {
+    document.getElementById('inputText').value = sampleText;
+});
+document.getElementById('fileUpload').addEventListener('change', handleFileUpload);
+document.getElementById('analyzeBtn').addEventListener('click', analyzeDecisions);
+document.getElementById('saveSessionBtn').addEventListener('click', saveSession);
+document.getElementById('loadSessionBtn').addEventListener('click', loadSession);
+</script>
+</body>
+</html>
