@@ -19,30 +19,12 @@
   html{scroll-behavior:smooth}
   body{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;font-size:16px;line-height:1.6}
   ::selection{background:var(--accent);color:white}
-
-  /* PW GATE */
-  .pw-gate{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.4s ease,visibility 0.4s}
-  .pw-gate.hidden{opacity:0;visibility:hidden;pointer-events:none}
-  .pw-gate .gt{font-family:var(--serif);font-size:1.15rem;font-weight:400;margin-bottom:48px}
-  .pw-gate p{font-size:14px;color:var(--text-s);margin-bottom:20px}
-  .pw-wrap{display:flex;gap:8px}
-  .pw-in{font-family:var(--sans);font-size:14px;padding:10px 16px;border-radius:4px;border:1px solid var(--border);background:white;color:var(--text);outline:none;width:180px;letter-spacing:0.04em;-webkit-appearance:none}
-  .pw-in:focus{border-color:var(--accent)}
-  .pw-in.error{border-color:#EA4335;animation:shake 0.4s}
-  .pw-btn{font-family:var(--sans);font-size:14px;padding:10px 20px;border-radius:4px;border:none;background:var(--accent);color:white;cursor:pointer;font-weight:500}
-  .pw-err{font-size:13px;color:#EA4335;margin-top:12px;height:18px;opacity:0;transition:opacity 0.2s}
-  .pw-err.show{opacity:1}
-
-  /* NAV */
   nav{padding:32px 0;max-width:960px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;padding-left:48px;padding-right:48px}
   .nav-n{font-family:var(--serif);font-size:1rem;font-weight:400;color:var(--text);text-decoration:none}
   .nav-l{display:flex;gap:32px;list-style:none}
   .nav-l a{text-decoration:none;color:var(--text-t);font-size:14px;transition:color 0.2s}
   .nav-l a:hover{color:var(--text)}
-
   .pg{max-width:960px;margin:0 auto;padding:0 48px}
-
-  /* HERO */
   .hero{padding:100px 0 80px}
   .hero h1{font-family:var(--serif);font-weight:300;font-size:clamp(2.6rem,5.5vw,3.6rem);line-height:1.18;letter-spacing:-0.025em;max-width:760px;opacity:0;animation:fadeIn 0.8s ease 0.15s forwards}
   .hero-credentials{margin-top:48px;display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);opacity:0;animation:fadeIn 0.8s ease 0.4s forwards}
@@ -54,14 +36,10 @@
   .hero-lnk{margin-top:40px;display:flex;gap:28px;opacity:0;animation:fadeIn 0.8s ease 0.6s forwards}
   .hero-lnk a{font-size:14px;color:var(--accent);text-decoration:none;font-weight:500}
   .hero-lnk a:hover{text-decoration:underline}
-
-  /* CAPABILITIES */
   .capabilities{padding:80px 0;border-bottom:1px solid var(--border)}
   .cap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:48px}
   .cap h3{font-family:var(--serif);font-weight:500;font-size:1rem;margin-bottom:8px}
   .cap p{font-size:14px;color:var(--text-s);line-height:1.65}
-
-  /* FEATURED */
   .feat-section{padding:100px 0;border-bottom:1px solid var(--border)}
   .feat-card{background:var(--surface);border-radius:12px;overflow:hidden;display:grid;grid-template-columns:1fr 1fr;min-height:400px}
   .feat-vis{background:#1A1918;display:flex;align-items:center;justify-content:center;padding:48px}
@@ -79,8 +57,6 @@
   .f-item:not(:last-child){padding-right:40px}
   .f-item h3{font-family:var(--serif);font-weight:500;font-size:1rem;margin-bottom:8px}
   .f-item p{font-size:14px;color:var(--text-s);line-height:1.6}
-
-  /* WORK */
   .sec{padding:100px 0 0}
   .sec h2{font-family:var(--serif);font-weight:400;font-size:1.5rem;letter-spacing:-0.01em;margin-bottom:48px}
   .co-block{padding:56px 0;border-bottom:1px solid var(--border);position:relative}
@@ -95,8 +71,6 @@
   .project-link:hover{color:var(--accent);padding-left:8px}
   .project-link .arrow{color:var(--text-t);font-size:13px;transition:color 0.2s,transform 0.2s var(--ease-out)}
   .project-link:hover .arrow{color:var(--accent);transform:translateX(3px)}
-
-  /* AMAZON LOCK */
   .co-lock{position:absolute;inset:0;z-index:5;background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.4s ease}
   .co-lock.unlocked{opacity:0;pointer-events:none}
   .co-lock .lock-icon{font-size:1.2rem;margin-bottom:10px;opacity:0.5}
@@ -107,31 +81,24 @@
   .co-lock .lock-input.error{border-color:#EA4335;animation:shake 0.4s}
   .co-lock .lock-btn{font-family:var(--sans);font-size:13px;padding:8px 16px;border-radius:4px;border:1px solid var(--border);background:var(--surface);color:var(--text-s);cursor:pointer}
   .co-lock .lock-btn:hover{background:var(--accent);color:white;border-color:var(--accent)}
-
-  /* CONTACT */
   .contact{padding:100px 0 120px;border-top:1px solid var(--border)}
   .contact h2{font-family:var(--serif);font-weight:400;font-size:1.65rem;letter-spacing:-0.015em;margin-bottom:14px}
   .contact p{font-size:15px;color:var(--text-s);line-height:1.7;max-width:440px}
   .contact-lnk{margin-top:28px;display:flex;gap:24px}
   .contact-lnk a{font-size:14px;color:var(--accent);text-decoration:none;font-weight:500}
   .contact-lnk a:hover{text-decoration:underline}
-
-  /* FOOTER */
   footer{padding:24px 0;border-top:1px solid var(--border)}
   .f-inner{display:flex;justify-content:space-between;align-items:center}
   footer span{font-size:13px;color:var(--text-t)}
   footer .fl{display:flex;gap:20px}
   footer .fl a{font-size:13px;color:var(--text-t);text-decoration:none}
   footer .fl a:hover{color:var(--text)}
-
-  /* ANIMATIONS */
   @keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
   @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.35}}
   @keyframes nodeGlow{0%,100%{opacity:0.2}50%{opacity:0.5}}
   .reveal{opacity:0;transform:translateY(16px);transition:opacity 0.6s ease,transform 0.6s ease}
   .reveal.vis{opacity:1;transform:translateY(0)}
-
   @media(max-width:768px){
     nav,.pg{padding-left:24px;padding-right:24px}
     .hero{padding:72px 0 60px}
@@ -153,16 +120,6 @@
 </head>
 <body>
 
-<div class="pw-gate" id="pwGate">
-  <div class="gt">Sabah Rahman</div>
-  <p>Enter password to view portfolio</p>
-  <div class="pw-wrap">
-    <input type="password" class="pw-in" id="pwInput" placeholder="Password" autocomplete="off" />
-    <button class="pw-btn" id="pwSubmit">Enter</button>
-  </div>
-  <div class="pw-err" id="pwError">Incorrect password</div>
-</div>
-
 <nav>
   <a href="/" class="nav-n">Sabah Rahman</a>
   <ul class="nav-l">
@@ -179,7 +136,7 @@
     <div class="hero-credentials">
       <div class="hero-cred"><div class="cred-val">10+</div><div class="cred-label">Years shipping enterprise products</div></div>
       <div class="hero-cred"><div class="cred-val">1</div><div class="cred-label">US patent pending (B-TFAL)</div></div>
-      <div class="hero-cred"><div class="cred-val">Amazon</div><div class="cred-label">Feedzai · ForAllSecure · Lessen</div></div>
+      <div class="hero-cred"><div class="cred-val">Amazon</div><div class="cred-label">ForAllSecure · Lessen</div></div>
       <div class="hero-cred"><div class="cred-val">React</div><div class="cred-label">Production code, not prototypes</div></div>
     </div>
     <div class="hero-lnk">
@@ -279,14 +236,6 @@
       </div>
     </div>
 
-    <div class="co-block reveal">
-      <div class="co-header"><span class="co-name">Feedzai</span><span class="co-role">Head Researcher · 2018–2019</span></div>
-      <h3 class="co-title">AI/ML Fraud Detection Products</h3>
-      <p class="co-desc">Led research across three ML-powered fraud detection products for global financial institutions. Cut investigation time from days to hours.</p>
-      <div class="project-list">
-        <a href="/work/feedzai-fraud.html" class="project-link"><span>Fraud Detection Trio — Research & Redesign</span><span class="arrow">↗</span></a>
-      </div>
-    </div>
   </section>
 
   <section class="contact reveal" id="contact">
@@ -311,7 +260,6 @@
 </div>
 
 <script>
-  // Scroll reveal
   var obs = new IntersectionObserver(function(e) {
     e.forEach(function(x) {
       if (x.isIntersecting) { x.target.classList.add('vis'); obs.unobserve(x.target); }
@@ -319,34 +267,10 @@
   }, { threshold: 0.08 });
   document.querySelectorAll('.reveal').forEach(function(el) { obs.observe(el); });
 
-  // Construct email links (prevents CDN email obfuscation)
   var _u = 'sabahr2', _d = 'gmail.com', _m = 'mai' + 'lto:' + _u + '@' + _d;
   document.getElementById('emlLink1').href = _m;
   document.getElementById('emlLink2').href = _m;
 
-  // Site password gate
-  var gate = document.getElementById('pwGate');
-  var pwI = document.getElementById('pwInput');
-  var pwS = document.getElementById('pwSubmit');
-  var pwE = document.getElementById('pwError');
-  function tryU() {
-    if (pwI.value === '2025') {
-      gate.classList.add('hidden');
-      document.body.style.overflow = '';
-    } else {
-      pwI.classList.add('error');
-      pwE.classList.add('show');
-      setTimeout(function() { pwI.classList.remove('error'); pwE.classList.remove('show'); }, 1500);
-      pwI.value = '';
-      pwI.focus();
-    }
-  }
-  pwS.addEventListener('click', tryU);
-  pwI.addEventListener('keydown', function(e) { if (e.key === 'Enter') tryU(); });
-  document.body.style.overflow = 'hidden';
-  pwI.focus();
-
-  // Amazon lock
   var aL = document.getElementById('amazonLock');
   var aI = document.getElementById('amazonPwInput');
   var aB = document.getElementById('amazonPwBtn');
