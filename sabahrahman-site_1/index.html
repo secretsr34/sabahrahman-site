@@ -40,7 +40,7 @@
   .cap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:48px}
   .cap h3{font-family:var(--serif);font-weight:500;font-size:1rem;margin-bottom:8px}
   .cap p{font-size:14px;color:var(--text-s);line-height:1.65}
-  .feat-section{padding:100px 0;border-bottom:1px solid var(--border)}
+  .feat-section{padding:100px 0;border-bottom:1px solid var(--border);position:relative}
   .feat-card{background:var(--surface);border-radius:12px;overflow:hidden;display:grid;grid-template-columns:1fr 1fr;min-height:400px}
   .feat-vis{background:#1A1918;display:flex;align-items:center;justify-content:center;padding:48px}
   .feat-vis svg{width:100%;max-width:300px;height:auto;overflow:visible}
@@ -135,12 +135,12 @@
     <h1>I design enterprise products, engineer them in production code, and invented a patent-pending AI framework along the way.</h1>
     <div class="hero-credentials">
       <div class="hero-cred"><div class="cred-val">10+</div><div class="cred-label">Years shipping enterprise products</div></div>
-      <div class="hero-cred"><div class="cred-val">1</div><div class="cred-label">US patent pending (B-TFAL)</div></div>
-      <div class="hero-cred"><div class="cred-val">Amazon</div><div class="cred-label">ForAllSecure · Lessen</div></div>
+      <div class="hero-cred"><div class="cred-val">1</div><div class="cred-label">US patent pending</div></div>
+      <div class="hero-cred"><div class="cred-val">Enterprise</div><div class="cred-label">ForAllSecure · Lessen · more</div></div>
       <div class="hero-cred"><div class="cred-val">React</div><div class="cred-label">Production code, not prototypes</div></div>
     </div>
     <div class="hero-lnk">
-      <a href="#btfal">B-TFAL — Patent pending ↗</a>
+      <a href="#btfal">B-TFAL ↗</a>
       <a href="#work">Selected work ↗</a>
     </div>
   </section>
@@ -149,11 +149,19 @@
     <div class="cap-grid">
       <div class="cap"><h3>Design Leadership</h3><p>UX architecture, design systems, and product strategy for high-complexity enterprise systems. I've built UX functions from zero and shipped to millions.</p></div>
       <div class="cap"><h3>Front-End Engineering</h3><p>Production React, JSX, HTML5, CSS3, JavaScript. My prototypes are the product. Teams I've worked with cut development rework by 30%.</p></div>
-      <div class="cap"><h3>AI Explainability</h3><p>Invented B-TFAL — a deterministic framework that makes black-box AI auditable. Patent pending, built for EU AI Act and Colorado AI Act compliance.</p></div>
+      <div class="cap"><h3>AI Explainability</h3><p>Deep expertise in making black-box AI systems auditable and compliant. Built for the regulatory landscape ahead — EU AI Act and Colorado AI Act enforcement.</p></div>
     </div>
   </section>
 
   <section class="feat-section reveal" id="btfal">
+    <div class="co-lock" id="btfalLock">
+      <div class="lock-icon">&#x1F512;</div>
+      <span class="lock-label">This case study is password protected</span>
+      <div class="lock-form">
+        <input type="password" class="lock-input" id="btfalPwInput" placeholder="Password" autocomplete="off" />
+        <button class="lock-btn" id="btfalPwBtn">Enter</button>
+      </div>
+    </div>
     <div class="feat-card">
       <div class="feat-vis">
         <svg viewBox="0 0 320 280" fill="none">
@@ -240,7 +248,7 @@
 
   <section class="contact reveal" id="contact">
     <h2>Get in touch</h2>
-    <p>Exploring B-TFAL for your AI compliance roadmap, or looking for a design and engineering leader who ships production code.</p>
+    <p>Looking for a design and engineering leader who ships production code.</p>
     <div class="contact-lnk">
       <a href="#" id="emlLink1">Email ↗</a>
       <a href="https://www.linkedin.com/in/sabahr/">LinkedIn ↗</a>
@@ -287,6 +295,23 @@
   aB.addEventListener('click', function(e) { e.stopPropagation(); tryA(); });
   aI.addEventListener('keydown', function(e) { if (e.key === 'Enter') { e.stopPropagation(); tryA(); } });
   aI.addEventListener('click', function(e) { e.stopPropagation(); });
+
+  var bL = document.getElementById('btfalLock');
+  var bI = document.getElementById('btfalPwInput');
+  var bB = document.getElementById('btfalPwBtn');
+  function tryB() {
+    if (bI.value === '3232') {
+      bL.classList.add('unlocked');
+    } else {
+      bI.classList.add('error');
+      setTimeout(function() { bI.classList.remove('error'); }, 600);
+      bI.value = '';
+      bI.focus();
+    }
+  }
+  bB.addEventListener('click', function(e) { e.stopPropagation(); tryB(); });
+  bI.addEventListener('keydown', function(e) { if (e.key === 'Enter') { e.stopPropagation(); tryB(); } });
+  bI.addEventListener('click', function(e) { e.stopPropagation(); });
 </script>
 
 </body>
